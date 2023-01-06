@@ -37,8 +37,10 @@ public class RedisConfig implements BeanClassLoaderAware {
         return new LettuceConnectionFactory(configuration);
     }
 
+    @SuppressWarnings("java:S1452") // 레디스의 key value의 타입을 자유롭게 지정하기위함.
     @Bean
-    public RedisTemplate<?, ?> redisTemplate() {        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<?, ?> redisTemplate() {
+        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
@@ -47,33 +49,44 @@ public class RedisConfig implements BeanClassLoaderAware {
 
         return redisTemplate;
     }
+
     @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {        this.classLoader = classLoader;
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
+
     public String getHost() {
         return host;
     }
+
     public void setHost(String host) {
         this.host = host;
     }
+
     public int getPort() {
         return port;
     }
+
     public void setPort(int port) {
         this.port = port;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public int getDatabase() {
         return database;
     }
+
     public void setDatabase(int database) {
         this.database = database;
     }
+
     public ClassLoader getClassLoader() {
         return classLoader;
     }
