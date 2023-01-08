@@ -10,6 +10,7 @@ import lombok.Getter;
  */
 @Getter
 public class DeliveryRequestDto {
+
     private Long deliveryNo;
     private Long orderNo;
     private String receiverName;
@@ -17,5 +18,5 @@ public class DeliveryRequestDto {
     private String receiverDetailAddress;
     private String receiverPhoneNumber;
     private String trackingNo;
-    
+
 }

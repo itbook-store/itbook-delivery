@@ -16,7 +16,7 @@ public enum DeliveryStatusEnum {
     COMPLETED("배송완료");
 
     private final String deliveryStatus;
-    
+
     DeliveryStatusEnum(String deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
     }

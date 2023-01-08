@@ -1,6 +1,7 @@
 package shop.itbook.itbookdelivery.delivery.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import shop.itbook.itbookdelivery.delivery.dto.request.DeliveryRequestDto;
 import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 import shop.itbook.itbookdelivery.delivery.exception.DeliveryNotFoundException;
@@ -15,6 +16,7 @@ import shop.itbook.itbookdelivery.delivery.transfer.DeliveryTransfer;
  * @since 1.0
  */
 @RequiredArgsConstructor
+@Service
 public class DeliveryServiceImpl implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
