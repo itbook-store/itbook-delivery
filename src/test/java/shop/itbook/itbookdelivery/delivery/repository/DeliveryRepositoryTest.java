@@ -1,7 +1,6 @@
 package shop.itbook.itbookdelivery.delivery.repository;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,5 +38,8 @@ class DeliveryRepositoryTest {
 
         assertThat(savedDelivery.getOrderNo()).isEqualTo(1L);
         assertThat(savedDelivery.getReceiverName()).isEqualTo("테스트 수령인이름");
+        assertThat(savedDelivery.getReceiverDetailAddress()).isEqualTo("테스트 상세주소");
+        assertThat(savedDelivery.getReceiverPhoneNumber()).isEqualTo("테스트 전화번호");
+        assertThat(savedDelivery.getTrackingNo()).isEqualTo("테스트 운송장번호");
     }
 }
