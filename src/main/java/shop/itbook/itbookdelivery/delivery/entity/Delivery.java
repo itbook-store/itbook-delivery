@@ -1,7 +1,9 @@
-package shop.itbook.itbookdelivery.entity;
+package shop.itbook.itbookdelivery.delivery.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -14,18 +16,20 @@ import lombok.Setter;
  * 배송 테이블에 대한 엔티티 입니다.
  *
  * @author 강명관
+ * @author 정재원
  * @since 1.0
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "devlivery")
+@Table(name = "delivery")
 public class Delivery {
 
     @Id
-    @Column(name = "delivery_tracking_no", nullable = false, columnDefinition = "varchar(255)")
-    private String deliveryTrackingNo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "delivery_no")
+    private Long deliveryNo;
 
     @Column(name = "order_no", nullable = false)
     private Long orderNo;
@@ -42,26 +46,29 @@ public class Delivery {
     @Column(name = "receiver_phone_number", nullable = false, columnDefinition = "varchar(14)")
     private String receiverPhoneNumber;
 
+    @Column(name = "tracking_no", nullable = false, columnDefinition = "varchar(255)")
+    private String trackingNo;
+
     /**
      * 배송 엔티티에 대한 생성자 입니다.
      *
-     * @param deliveryTrackingNo    the delivery tracking no
      * @param orderNo               the order no
      * @param receiverName          the receiver name
      * @param receiverAddress       the receiver address
      * @param receiverDetailAddress the receiver detail address
      * @param receiverPhoneNumber   the receiver phone number
+     * @param trackingNo            the delivery tracking no
      * @author 강명관
+     * @author 정재원
      */
     @Builder
-    public Delivery(String deliveryTrackingNo, Long orderNo, String receiverName,
-                    String receiverAddress, String receiverDetailAddress,
-                    String receiverPhoneNumber) {
-        this.deliveryTrackingNo = deliveryTrackingNo;
+    public Delivery(Long orderNo, String receiverName, String receiverAddress,
+                    String receiverDetailAddress, String receiverPhoneNumber, String trackingNo) {
         this.orderNo = orderNo;
         this.receiverName = receiverName;
         this.receiverAddress = receiverAddress;
         this.receiverDetailAddress = receiverDetailAddress;
         this.receiverPhoneNumber = receiverPhoneNumber;
+        this.trackingNo = trackingNo;
     }
 }
