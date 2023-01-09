@@ -16,7 +16,6 @@ import lombok.Setter;
  * 배송 테이블에 대한 엔티티 입니다.
  *
  * @author 강명관
- * @author 정재원
  * @since 1.0
  */
 @Getter
@@ -52,7 +51,6 @@ public class Delivery {
     /**
      * 배송 엔티티에 대한 생성자 입니다.
      *
-     * @param deliveryNo            the delivery no
      * @param orderNo               the order no
      * @param receiverName          the receiver name
      * @param receiverAddress       the receiver address
@@ -63,9 +61,8 @@ public class Delivery {
      * @author 정재원
      */
     @Builder
-    public Delivery(Long deliveryNo, Long orderNo, String receiverName, String receiverAddress,
+    public Delivery(Long orderNo, String receiverName, String receiverAddress,
                     String receiverDetailAddress, String receiverPhoneNumber, String trackingNo) {
-        this.deliveryNo = deliveryNo;
         this.orderNo = orderNo;
         this.receiverName = receiverName;
         this.receiverAddress = receiverAddress;

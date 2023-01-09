@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.itbook.itbookdelivery.delivery.dto.request.DeliveryRequestDto;
+import shop.itbook.itbookdelivery.delivery.dto.response.DeliveryResponseDto;
 import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 import shop.itbook.itbookdelivery.delivery.exception.DeliveryNotFoundException;
 import shop.itbook.itbookdelivery.delivery.repository.DeliveryRepository;
@@ -27,7 +28,7 @@ public class DeliveryServiceImpl implements DeliveryService {
      */
     @Override
     @Transactional
-    public Long saveDelivery(DeliveryRequestDto deliveryRequestDto) {
+    public Long addDelivery(DeliveryRequestDto deliveryRequestDto) {
         Delivery delivery = DeliveryTransfer.dtoToEntity(deliveryRequestDto);
         return deliveryRepository.save(delivery).getDeliveryNo();
     }
@@ -36,7 +37,42 @@ public class DeliveryServiceImpl implements DeliveryService {
      * {@inheritDoc}
      */
     @Override
-    public Delivery findDeliveryEntity(Long deliveryNo) {
-        return deliveryRepository.findById(deliveryNo).orElseThrow(DeliveryNotFoundException::new);
+    public DeliveryResponseDto findDeliveryEntity(Long deliveryNo) {
+        return DeliveryTransfer.entityToDto(
+            deliveryRepository.findById(deliveryNo).orElseThrow(DeliveryNotFoundException::new));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void modifyDelivery(Long deliveryNo, DeliveryRequestDto deliveryRequestDto) {
+        Delivery delivery =
+            deliveryRepository.findById(deliveryNo).orElseThrow(DeliveryNotFoundException::new);
+
+        updateDelivery(deliveryRequestDto, delivery);
+
+        deliveryRepository.save(delivery);
+    }
+
+    
+    private static void updateDelivery(DeliveryRequestDto deliveryRequestDto, Delivery delivery) {
+        delivery.setOrderNo(deliveryRequestDto.getOrderNo());
+        delivery.setReceiverName(deliveryRequestDto.getReceiverName());
+        delivery.setReceiverAddress(deliveryRequestDto.getReceiverAddress());
+        delivery.setReceiverDetailAddress(deliveryRequestDto.getReceiverDetailAddress());
+        delivery.setReceiverPhoneNumber(deliveryRequestDto.getReceiverPhoneNumber());
+        delivery.setTrackingNo(deliveryRequestDto.getTrackingNo());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deleteDelivery(Long deliveryNo) {
+        Delivery delivery =
+            deliveryRepository.findById(deliveryNo).orElseThrow(DeliveryNotFoundException::new);
+
+        deliveryRepository.delete(delivery);
     }
 }

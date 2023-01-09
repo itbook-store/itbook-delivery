@@ -29,7 +29,6 @@ public class DeliveryTransfer {
 
     public static Delivery dtoToEntity(DeliveryRequestDto deliveryRequestDto) {
         return Delivery.builder()
-            .deliveryNo(deliveryRequestDto.getDeliveryNo())
             .orderNo(deliveryRequestDto.getOrderNo())
             .receiverName(deliveryRequestDto.getReceiverName())
             .receiverAddress(deliveryRequestDto.getReceiverAddress())
