@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,10 +22,8 @@ import shop.itbook.itbookdelivery.deliverystatus.entity.DeliveryStatus;
  * 배송 상태 이력 테이블에 대한 엔티티 입니다.
  *
  * @author 강명관
- * @author 정재원
  * @since 1.0
  */
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -51,4 +50,21 @@ public class DeliveryStatusHistory {
 
     @Column(name = "location", nullable = false, columnDefinition = "varchar(255)")
     private String location;
+
+    /**
+     * 배송 상태 이력을 생성 하기 위한 생성자입니다.
+     *
+     * @param delivery               the delivery
+     * @param deliveryStatus         the delivery status
+     * @param statusChangedCreatedAt the status changed created at
+     * @param location               the location
+     */
+    @Builder
+    public DeliveryStatusHistory(Delivery delivery, DeliveryStatus deliveryStatus,
+                                 LocalDateTime statusChangedCreatedAt, String location) {
+        this.delivery = delivery;
+        this.deliveryStatus = deliveryStatus;
+        this.statusChangedCreatedAt = LocalDateTime.now();
+        this.location = location;
+    }
 }

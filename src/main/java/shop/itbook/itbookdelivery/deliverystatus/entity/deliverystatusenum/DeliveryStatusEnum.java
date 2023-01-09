@@ -20,4 +20,12 @@ public enum DeliveryStatusEnum {
     DeliveryStatusEnum(String deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
     }
+
+    public String getDeliveryStatus() {
+        return this.deliveryStatus;
+    }
+
+    public static Integer getSize() {
+        return DeliveryStatusEnum.values().length;
+    }
 }

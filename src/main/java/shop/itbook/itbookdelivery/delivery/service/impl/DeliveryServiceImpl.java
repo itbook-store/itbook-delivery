@@ -39,7 +39,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public DeliveryResponseDto findDeliveryEntity(Long deliveryNo) {
         return DeliveryTransfer.entityToDto(
-            deliveryRepository.findById(deliveryNo).orElseThrow(DeliveryNotFoundException::new));
+            deliveryRepository.findById(deliveryNo)
+                .orElseThrow(() -> new DeliveryNotFoundException(deliveryNo)));
     }
 
     /**
@@ -48,14 +49,15 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void modifyDelivery(Long deliveryNo, DeliveryRequestDto deliveryRequestDto) {
         Delivery delivery =
-            deliveryRepository.findById(deliveryNo).orElseThrow(DeliveryNotFoundException::new);
+            deliveryRepository.findById(deliveryNo)
+                .orElseThrow(() -> new DeliveryNotFoundException(deliveryNo));
 
         updateDelivery(deliveryRequestDto, delivery);
 
         deliveryRepository.save(delivery);
     }
 
-    
+
     private static void updateDelivery(DeliveryRequestDto deliveryRequestDto, Delivery delivery) {
         delivery.setOrderNo(deliveryRequestDto.getOrderNo());
         delivery.setReceiverName(deliveryRequestDto.getReceiverName());
@@ -71,7 +73,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void deleteDelivery(Long deliveryNo) {
         Delivery delivery =
-            deliveryRepository.findById(deliveryNo).orElseThrow(DeliveryNotFoundException::new);
+            deliveryRepository.findById(deliveryNo)
+                .orElseThrow(() -> new DeliveryNotFoundException(deliveryNo));
 
         deliveryRepository.delete(delivery);
     }
