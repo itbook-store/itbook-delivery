@@ -1,4 +1,4 @@
-package shop.itbook.itbookdelivery.entity;
+package shop.itbook.itbookdelivery.deliverystatushistory.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -14,11 +14,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shop.itbook.itbookdelivery.delivery.entity.Delivery;
+import shop.itbook.itbookdelivery.deliverystatus.entity.DeliveryStatus;
 
 /**
  * 배송 상태 이력 테이블에 대한 엔티티 입니다.
  *
  * @author 강명관
+ * @author 정재원
  * @since 1.0
  */
 
@@ -36,7 +39,7 @@ public class DeliveryStatusHistory {
     private Long deliveryStatusHistoryNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery_tracking_no", nullable = false)
+    @JoinColumn(name = "delivery_no", nullable = false)
     private Delivery delivery;
 
     @ManyToOne(fetch = FetchType.LAZY)
