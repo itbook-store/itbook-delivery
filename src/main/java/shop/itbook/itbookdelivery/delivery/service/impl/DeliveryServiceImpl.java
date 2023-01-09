@@ -1,5 +1,6 @@
 package shop.itbook.itbookdelivery.delivery.service.impl;
 
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.itbook.itbookdelivery.delivery.dto.request.DeliveryRequestDto;
@@ -25,6 +26,7 @@ public class DeliveryServiceImpl implements DeliveryService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Long saveDelivery(DeliveryRequestDto deliveryRequestDto) {
         Delivery delivery = DeliveryTransfer.dtoToEntity(deliveryRequestDto);
         return deliveryRepository.save(delivery).getDeliveryNo();

@@ -1,5 +1,6 @@
 package shop.itbook.itbookdelivery.delivery.service;
 
+import javax.transaction.Transactional;
 import shop.itbook.itbookdelivery.delivery.dto.request.DeliveryRequestDto;
 import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 
