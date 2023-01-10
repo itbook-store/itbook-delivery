@@ -1,5 +1,6 @@
 package shop.itbook.itbookdelivery.delivery.repository;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 
@@ -10,4 +11,6 @@ import shop.itbook.itbookdelivery.delivery.entity.Delivery;
  * @since 1.0
  */
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
+
+    Optional<Delivery> findDeliveryByTrackingNo(String trackingNo);
 }

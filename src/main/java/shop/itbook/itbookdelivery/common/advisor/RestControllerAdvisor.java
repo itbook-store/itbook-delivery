@@ -4,6 +4,8 @@ import javax.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import shop.itbook.itbookdelivery.common.exception.MemberForbiddenException;
@@ -26,7 +28,8 @@ public class RestControllerAdvisor {
      * @return 에러메세지를 response entity 에 담아서 전송합니다.
      * @author 최겸준
      */
-    @ExceptionHandler(value = {DeliveryNotFoundException.class})
+    @ExceptionHandler(value = {DeliveryNotFoundException.class,
+        MethodArgumentNotValidException.class})
     public ResponseEntity<CommonResponseBody<RuntimeException>> badRequestException400(
         RuntimeException e) {
 

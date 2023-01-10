@@ -8,9 +8,7 @@ package shop.itbook.itbookdelivery.delivery.exception;
  */
 public class DeliveryNotFoundException extends RuntimeException {
 
-    public static final String MESSAGE = "배송 정보가 존재하지 않습니다.";
-
-    public DeliveryNotFoundException() {
-        super(MESSAGE);
+    public DeliveryNotFoundException(String trackingNo) {
+        super("해당 운송장 번호를 가진 배송 정보가 존재하지 않습니다. 번호: " + trackingNo);
     }
 }
