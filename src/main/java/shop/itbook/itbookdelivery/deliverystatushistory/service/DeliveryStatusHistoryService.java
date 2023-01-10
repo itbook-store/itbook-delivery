@@ -1,6 +1,6 @@
 package shop.itbook.itbookdelivery.deliverystatushistory.service;
 
-import shop.itbook.itbookdelivery.deliverystatushistory.dto.request.DeliveryStatusHistoryRequestDto;
+import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 import shop.itbook.itbookdelivery.deliverystatushistory.dto.response.DeliveryStatusHistoryResponseDto;
 
 /**
@@ -14,20 +14,17 @@ public interface DeliveryStatusHistoryService {
     /**
      * Dto 정보를 바탕으로 배송 정보 이력을 추가합니다.
      *
-     * @param deliveryStatusHistoryRequestDto the delivery status history request dto
-     * @return the delivery status history response dto
+     * @param delivery 이력에 저장될 매개변수입니다.
      * @author 정재원 *
      */
-    DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(
-        String trackingNo, DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto);
-
+    void addDeliveryStatusHistory(Delivery delivery);
 
     /**
-     * 배송상태 이력을 Id 값을 이용해 조회합니다.
+     * 배송 상태 이력을 운송장 번호를 통해 조회합니다.
      *
-     * @param deliveryStatusHistoryNo the delivery status history no
-     * @return the delivery status history response dto
+     * @param trackingNo 배송 상태 이력을 조죄할 운송장 번호
+     * @return 해당 운송장 번호의 최신 배송 상태 이력
      * @author 정재원 *
      */
-    DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(Long deliveryStatusHistoryNo);
+    DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(String trackingNo);
 }

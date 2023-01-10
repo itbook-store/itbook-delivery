@@ -48,8 +48,6 @@ public class DeliveryStatusHistoryTransfer {
     public static DeliveryStatusHistory dtoToEntity(
         DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto) {
 
-        return DeliveryStatusHistory.builder()
-            .location(deliveryStatusHistoryRequestDto.getLocation())
-            .build();
+        return new DeliveryStatusHistory(deliveryStatusHistoryRequestDto.getLocation());
     }
 }

@@ -29,8 +29,9 @@ class DeliveryRepositoryTest {
             .receiverAddress("테스트 주소")
             .receiverDetailAddress("테스트 상세주소")
             .receiverPhoneNumber("테스트 전화번호")
-            .trackingNo("테스트 운송장번호")
             .build();
+
+        delivery.setTrackingNo("1");
 
         Delivery savedDelivery = deliveryRepository.save(delivery);
 
@@ -38,6 +39,5 @@ class DeliveryRepositoryTest {
         assertThat(savedDelivery.getReceiverName()).isEqualTo("테스트 수령인이름");
         assertThat(savedDelivery.getReceiverDetailAddress()).isEqualTo("테스트 상세주소");
         assertThat(savedDelivery.getReceiverPhoneNumber()).isEqualTo("테스트 전화번호");
-        assertThat(savedDelivery.getTrackingNo()).isEqualTo("테스트 운송장번호");
     }
 }

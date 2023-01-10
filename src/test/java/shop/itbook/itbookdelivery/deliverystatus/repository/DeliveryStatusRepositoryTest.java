@@ -23,19 +23,19 @@ class DeliveryStatusRepositoryTest {
     @DisplayName("배송 엔티티 상태 데이터베이스 insert 성공")
     void save_success_test() {
         DeliveryStatus deliveryStatus = new DeliveryStatus();
-        deliveryStatus.setDeliveryStatusEnum(DeliveryStatusEnum.WAITING);
+        deliveryStatus.setDeliveryStatusEnum(DeliveryStatusEnum.DELIVERY_IN_PROGRESS);
 
         DeliveryStatus savedDeliveryStatus = deliveryStatusRepository.save(deliveryStatus);
 
         assertThat(savedDeliveryStatus.getDeliveryStatusEnum()).isEqualTo(
-            DeliveryStatusEnum.WAITING);
+            DeliveryStatusEnum.DELIVERY_IN_PROGRESS);
     }
 
     @Test
     @DisplayName("배송 엔티티 상태 데이터베이스에서 select 성공")
     void find_success_test() {
         DeliveryStatus deliveryStatus = new DeliveryStatus();
-        deliveryStatus.setDeliveryStatusEnum(DeliveryStatusEnum.WAITING);
+        deliveryStatus.setDeliveryStatusEnum(DeliveryStatusEnum.DELIVERY_COMPLETED);
 
         deliveryStatusRepository.save(deliveryStatus);
 

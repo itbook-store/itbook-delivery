@@ -7,7 +7,7 @@ package shop.itbook.itbookdelivery.deliverystatus.exception;
  * @since 1.0
  */
 public class DeliveryStatusNotFoundException extends RuntimeException {
-    public DeliveryStatusNotFoundException(Integer deliveryStatusNo) {
-        super("해당 번호를 가진 배송 상태가 존재하지 않습니다. 번호: " + deliveryStatusNo);
+    public DeliveryStatusNotFoundException() {
+        super("해당 배송 상태가 존재하지 않습니다.");
     }
 }

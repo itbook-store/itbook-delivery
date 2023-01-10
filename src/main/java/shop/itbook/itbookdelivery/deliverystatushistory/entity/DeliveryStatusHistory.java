@@ -51,20 +51,7 @@ public class DeliveryStatusHistory {
     @Column(name = "location", nullable = false, columnDefinition = "varchar(255)")
     private String location;
 
-    /**
-     * 배송 상태 이력을 생성 하기 위한 생성자입니다.
-     *
-     * @param delivery               the delivery
-     * @param deliveryStatus         the delivery status
-     * @param statusChangedCreatedAt the status changed created at
-     * @param location               the location
-     */
-    @Builder
-    public DeliveryStatusHistory(Delivery delivery, DeliveryStatus deliveryStatus,
-                                 LocalDateTime statusChangedCreatedAt, String location) {
-        this.delivery = delivery;
-        this.deliveryStatus = deliveryStatus;
-        this.statusChangedCreatedAt = LocalDateTime.now();
+    public DeliveryStatusHistory(String location) {
         this.location = location;
     }
 }

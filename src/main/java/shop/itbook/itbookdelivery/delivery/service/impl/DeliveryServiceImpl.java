@@ -10,6 +10,7 @@ import shop.itbook.itbookdelivery.delivery.exception.DeliveryNotFoundException;
 import shop.itbook.itbookdelivery.delivery.repository.DeliveryRepository;
 import shop.itbook.itbookdelivery.delivery.service.DeliveryService;
 import shop.itbook.itbookdelivery.delivery.transfer.DeliveryTransfer;
+import shop.itbook.itbookdelivery.deliverystatushistory.service.DeliveryStatusHistoryService;
 
 /**
  * DeliveryService 인터페이스를 구현한 클래스입니다.
@@ -22,6 +23,9 @@ import shop.itbook.itbookdelivery.delivery.transfer.DeliveryTransfer;
 public class DeliveryServiceImpl implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
+    private final DeliveryStatusHistoryService deliveryStatusHistoryService;
+
+    private static final Long TRACKING_SEQUENCE_NUMBER = 1L;
 
     /**
      * {@inheritDoc}
@@ -30,7 +34,15 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Transactional
     public String addDelivery(DeliveryRequestDto deliveryRequestDto) {
         Delivery delivery = DeliveryTransfer.dtoToEntity(deliveryRequestDto);
-        return deliveryRepository.save(delivery).getTrackingNo();
+
+        // TODO 멀티쓰레드 고려. 유니크 아이디.
+        delivery.setTrackingNo(
+            String.valueOf(deliveryRepository.count() + TRACKING_SEQUENCE_NUMBER));
+
+        deliveryRepository.save(delivery);
+        deliveryStatusHistoryService.addDeliveryStatusHistory(delivery);
+
+        return delivery.getTrackingNo();
     }
 
     /**
@@ -47,6 +59,7 @@ public class DeliveryServiceImpl implements DeliveryService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void modifyDeliveryByTrackingNo(String trackingNo,
                                            DeliveryRequestDto deliveryRequestDto) {
         Delivery delivery =
@@ -70,7 +83,8 @@ public class DeliveryServiceImpl implements DeliveryService {
      * {@inheritDoc}
      */
     @Override
-    public void deleteDeliveryByTrackingNo(String trackingNo) {
+    @Transactional
+    public void removeDeliveryByTrackingNo(String trackingNo) {
         Delivery delivery =
             deliveryRepository.findDeliveryByTrackingNo(trackingNo)
                 .orElseThrow(() -> new DeliveryNotFoundException(trackingNo));

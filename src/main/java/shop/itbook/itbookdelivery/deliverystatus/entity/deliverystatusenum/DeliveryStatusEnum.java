@@ -12,8 +12,8 @@ import lombok.Getter;
 @Getter
 public enum DeliveryStatusEnum {
 
-    WAITING("배송대기"),
-    COMPLETED("배송완료");
+    DELIVERY_IN_PROGRESS("배송중"),
+    DELIVERY_COMPLETED("배송완료");
 
     private final String deliveryStatus;
 
@@ -23,9 +23,5 @@ public enum DeliveryStatusEnum {
 
     public String getDeliveryStatus() {
         return this.deliveryStatus;
-    }
-
-    public static Integer getSize() {
-        return DeliveryStatusEnum.values().length;
     }
 }
