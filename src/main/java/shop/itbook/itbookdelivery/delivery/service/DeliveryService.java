@@ -46,5 +46,5 @@ public interface DeliveryService {
      * @param trackingNo 삭제를 위해 요청으로 들어온 주문의 운송장 번호.
      * @author 정재원 *
      */
-    void deleteDeliveryByTrackingNo(String trackingNo);
+    void removeDeliveryByTrackingNo(String trackingNo);
 }

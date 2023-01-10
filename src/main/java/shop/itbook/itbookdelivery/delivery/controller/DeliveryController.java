@@ -18,6 +18,7 @@ import shop.itbook.itbookdelivery.delivery.dto.response.TrackingNoResponseDto;
 import shop.itbook.itbookdelivery.delivery.dto.response.DeliveryResponseDto;
 import shop.itbook.itbookdelivery.delivery.resultmessageenum.ResultMessageEnum;
 import shop.itbook.itbookdelivery.delivery.service.DeliveryService;
+import shop.itbook.itbookdelivery.deliverystatushistory.service.DeliveryStatusHistoryService;
 
 /**
  * 배송 등록, 조회, 수정, 삭제를 요청 받는 컨트롤러 입니다.
@@ -31,6 +32,7 @@ import shop.itbook.itbookdelivery.delivery.service.DeliveryService;
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
+    private final DeliveryStatusHistoryService deliveryStatusHistoryService;
 
     private final static Boolean SUCCEEDED = true;
 
@@ -106,14 +108,14 @@ public class DeliveryController {
      * @author 정재원 *
      */
     @DeleteMapping
-    public ResponseEntity<CommonResponseBody<Void>> deliveryDelete(
+    public ResponseEntity<CommonResponseBody<Void>> deliveryRemove(
         @PathVariable String trackingNo) {
 
-        deliveryService.deleteDeliveryByTrackingNo(trackingNo);
+        deliveryService.removeDeliveryByTrackingNo(trackingNo);
 
         CommonResponseBody<Void> commonResponseBody = new CommonResponseBody<>(
             new CommonResponseBody.CommonHeader(true, HttpStatus.NO_CONTENT.value(),
-                ResultMessageEnum.DELIVERY_DELETE_SUCCESS_MESSAGE.getSuccessMessage()),
+                ResultMessageEnum.DELIVERY_REMOVE_SUCCESS_MESSAGE.getSuccessMessage()),
             null);
 
         return ResponseEntity.ok().body(commonResponseBody);

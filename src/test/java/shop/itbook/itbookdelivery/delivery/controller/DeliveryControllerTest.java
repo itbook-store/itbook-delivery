@@ -4,6 +4,8 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -20,7 +22,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import shop.itbook.itbookdelivery.delivery.dto.request.DeliveryRequestDto;
+import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 import shop.itbook.itbookdelivery.delivery.service.DeliveryService;
+import shop.itbook.itbookdelivery.deliverystatushistory.service.DeliveryStatusHistoryService;
 
 /**
  * @author 정재원
@@ -31,13 +35,12 @@ class DeliveryControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
     @Autowired
     DeliveryController deliveryController;
-
     @MockBean
     DeliveryService deliveryService;
-
+    @MockBean
+    DeliveryStatusHistoryService deliveryStatusHistoryService;
     @Autowired
     ObjectMapper objectMapper;
 
@@ -57,6 +60,8 @@ class DeliveryControllerTest {
 
         given(deliveryService.addDelivery(any(DeliveryRequestDto.class))).willReturn(
             TEST_TRACKING_NO);
+        doNothing().when(deliveryStatusHistoryService)
+            .addDeliveryStatusHistory(any(Delivery.class));
 
         //when
         mockMvc.perform(post("/api/deliveries")
@@ -78,6 +83,9 @@ class DeliveryControllerTest {
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverAddress", "수령주소");
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverDetailAddress", "수령상세주소");
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverPhoneNumber", "수령핸드폰번호");
+
+        doNothing().when(deliveryStatusHistoryService)
+            .addDeliveryStatusHistory(any(Delivery.class));
 
         mockMvc.perform(post("/api/deliveries")
                 .contentType(MediaType.APPLICATION_JSON)

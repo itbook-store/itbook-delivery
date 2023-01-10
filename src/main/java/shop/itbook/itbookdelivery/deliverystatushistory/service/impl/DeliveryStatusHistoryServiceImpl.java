@@ -7,12 +7,11 @@ import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 import shop.itbook.itbookdelivery.delivery.exception.DeliveryNotFoundException;
 import shop.itbook.itbookdelivery.delivery.repository.DeliveryRepository;
 import shop.itbook.itbookdelivery.deliverystatus.entity.DeliveryStatus;
+import shop.itbook.itbookdelivery.deliverystatus.entity.deliverystatusenum.DeliveryStatusEnum;
 import shop.itbook.itbookdelivery.deliverystatus.exception.DeliveryStatusNotFoundException;
 import shop.itbook.itbookdelivery.deliverystatus.repository.DeliveryStatusRepository;
-import shop.itbook.itbookdelivery.deliverystatushistory.dto.request.DeliveryStatusHistoryRequestDto;
 import shop.itbook.itbookdelivery.deliverystatushistory.dto.response.DeliveryStatusHistoryResponseDto;
 import shop.itbook.itbookdelivery.deliverystatushistory.entity.DeliveryStatusHistory;
-import shop.itbook.itbookdelivery.deliverystatushistory.exception.DeliveryStatusHistoryNotFoundException;
 import shop.itbook.itbookdelivery.deliverystatushistory.repository.DeliveryStatusHistoryRepository;
 import shop.itbook.itbookdelivery.deliverystatushistory.service.DeliveryStatusHistoryService;
 import shop.itbook.itbookdelivery.deliverystatushistory.transfer.DeliveryStatusHistoryTransfer;
@@ -36,38 +35,44 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
      */
     @Override
     @Transactional
-    public DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(
-        String trackingNo, DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto) {
-
-        Delivery delivery =
-            deliveryRepository.findById(deliveryStatusHistoryRequestDto.getDeliveryNo())
-                .orElseThrow(() ->
-                    new DeliveryNotFoundException(trackingNo));
+    public void addDeliveryStatusHistory(Delivery delivery) {
 
         DeliveryStatus deliveryStatus =
-            deliveryStatusRepository.findById(deliveryStatusHistoryRequestDto.getDeliveryStatusNo())
-                .orElseThrow(() -> new DeliveryStatusNotFoundException(
-                    deliveryStatusHistoryRequestDto.getDeliveryStatusNo()));
+            deliveryStatusRepository.findDeliveryStatusByDeliveryStatusEnum(
+                    DeliveryStatusEnum.DELIVERY_IN_PROGRESS)
+                .orElseThrow(DeliveryStatusNotFoundException::new);
 
         DeliveryStatusHistory deliveryStatusHistory =
-            DeliveryStatusHistoryTransfer.dtoToEntity(deliveryStatusHistoryRequestDto);
+            new DeliveryStatusHistory(delivery.getReceiverAddress());
 
         deliveryStatusHistory.setDelivery(delivery);
         deliveryStatusHistory.setDeliveryStatus(deliveryStatus);
 
         deliveryStatusHistoryRepository.save(deliveryStatusHistory);
-
-        return DeliveryStatusHistoryTransfer.entityToDto(deliveryStatusHistory);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(
-        Long deliveryStatusHistoryNo) {
+    @Transactional
+    public DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(String trackingNo) {
 
-        DeliveryStatusHistory deliveryStatusHistory =
-            deliveryStatusHistoryRepository.findById(deliveryStatusHistoryNo)
-                .orElseThrow(
-                    () -> new DeliveryStatusHistoryNotFoundException(deliveryStatusHistoryNo));
+        Delivery delivery = deliveryRepository.findDeliveryByTrackingNo(trackingNo)
+            .orElseThrow(() -> new DeliveryNotFoundException(trackingNo));
+
+        DeliveryStatus deliveryStatus =
+            deliveryStatusRepository.findDeliveryStatusByDeliveryStatusEnum(
+                    DeliveryStatusEnum.DELIVERY_COMPLETED)
+                .orElseThrow(DeliveryStatusNotFoundException::new);
+
+        DeliveryStatusHistory deliveryStatusHistory = new DeliveryStatusHistory(
+            delivery.getReceiverAddress() + delivery.getReceiverDetailAddress());
+
+        deliveryStatusHistory.setDelivery(delivery);
+        deliveryStatusHistory.setDeliveryStatus(deliveryStatus);
+
+        deliveryStatusHistoryRepository.save(deliveryStatusHistory);
 
         return DeliveryStatusHistoryTransfer.entityToDto(deliveryStatusHistory);
     }

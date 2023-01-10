@@ -24,7 +24,6 @@ import shop.itbook.itbookdelivery.deliverystatus.entity.deliverystatusenum.Deliv
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "delivery_status")
