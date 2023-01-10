@@ -37,12 +37,12 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
     @Override
     @Transactional
     public DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(
-        DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto) {
+        String trackingNo, DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto) {
 
         Delivery delivery =
             deliveryRepository.findById(deliveryStatusHistoryRequestDto.getDeliveryNo())
                 .orElseThrow(() ->
-                    new DeliveryNotFoundException(deliveryStatusHistoryRequestDto.getDeliveryNo()));
+                    new DeliveryNotFoundException(trackingNo));
 
         DeliveryStatus deliveryStatus =
             deliveryStatusRepository.findById(deliveryStatusHistoryRequestDto.getDeliveryStatusNo())

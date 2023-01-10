@@ -2,8 +2,6 @@ package shop.itbook.itbookdelivery.delivery.dto.request;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 
 /**
@@ -25,7 +23,5 @@ public class DeliveryRequestDto {
     private String receiverDetailAddress;
     @NotBlank(message = "수령인의 핸드폰 번호는 공백일 수 없습니다.")
     private String receiverPhoneNumber;
-    @NotBlank(message = "운송장 번호는 공백일 수 없습니다.")
-    private String trackingNo;
-
+    
 }

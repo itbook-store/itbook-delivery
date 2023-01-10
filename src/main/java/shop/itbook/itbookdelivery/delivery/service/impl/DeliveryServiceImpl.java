@@ -28,35 +28,35 @@ public class DeliveryServiceImpl implements DeliveryService {
      */
     @Override
     @Transactional
-    public Long addDelivery(DeliveryRequestDto deliveryRequestDto) {
+    public String addDelivery(DeliveryRequestDto deliveryRequestDto) {
         Delivery delivery = DeliveryTransfer.dtoToEntity(deliveryRequestDto);
-        return deliveryRepository.save(delivery).getDeliveryNo();
+        return deliveryRepository.save(delivery).getTrackingNo();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public DeliveryResponseDto findDeliveryEntity(Long deliveryNo) {
+    public DeliveryResponseDto findDeliveryByTrackingNo(String trackingNo) {
         return DeliveryTransfer.entityToDto(
-            deliveryRepository.findById(deliveryNo)
-                .orElseThrow(() -> new DeliveryNotFoundException(deliveryNo)));
+            deliveryRepository.findDeliveryByTrackingNo(trackingNo)
+                .orElseThrow(() -> new DeliveryNotFoundException(trackingNo)));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void modifyDelivery(Long deliveryNo, DeliveryRequestDto deliveryRequestDto) {
+    public void modifyDeliveryByTrackingNo(String trackingNo,
+                                           DeliveryRequestDto deliveryRequestDto) {
         Delivery delivery =
-            deliveryRepository.findById(deliveryNo)
-                .orElseThrow(() -> new DeliveryNotFoundException(deliveryNo));
+            deliveryRepository.findDeliveryByTrackingNo(trackingNo)
+                .orElseThrow(() -> new DeliveryNotFoundException(trackingNo));
 
         updateDelivery(deliveryRequestDto, delivery);
 
         deliveryRepository.save(delivery);
     }
-
 
     private static void updateDelivery(DeliveryRequestDto deliveryRequestDto, Delivery delivery) {
         delivery.setOrderNo(deliveryRequestDto.getOrderNo());
@@ -64,17 +64,16 @@ public class DeliveryServiceImpl implements DeliveryService {
         delivery.setReceiverAddress(deliveryRequestDto.getReceiverAddress());
         delivery.setReceiverDetailAddress(deliveryRequestDto.getReceiverDetailAddress());
         delivery.setReceiverPhoneNumber(deliveryRequestDto.getReceiverPhoneNumber());
-        delivery.setTrackingNo(deliveryRequestDto.getTrackingNo());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void deleteDelivery(Long deliveryNo) {
+    public void deleteDeliveryByTrackingNo(String trackingNo) {
         Delivery delivery =
-            deliveryRepository.findById(deliveryNo)
-                .orElseThrow(() -> new DeliveryNotFoundException(deliveryNo));
+            deliveryRepository.findDeliveryByTrackingNo(trackingNo)
+                .orElseThrow(() -> new DeliveryNotFoundException(trackingNo));
 
         deliveryRepository.delete(delivery);
     }

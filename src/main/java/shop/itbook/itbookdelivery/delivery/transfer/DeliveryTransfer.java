@@ -34,7 +34,6 @@ public class DeliveryTransfer {
             .receiverAddress(deliveryRequestDto.getReceiverAddress())
             .receiverDetailAddress(deliveryRequestDto.getReceiverDetailAddress())
             .receiverPhoneNumber(deliveryRequestDto.getReceiverPhoneNumber())
-            .trackingNo(deliveryRequestDto.getTrackingNo())
             .build();
     }
 }

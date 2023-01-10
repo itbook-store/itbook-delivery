@@ -22,7 +22,7 @@ import shop.itbook.itbookdelivery.deliverystatushistory.service.DeliveryStatusHi
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/delivery-status-history")
+@RequestMapping("/api/delivery-status-histories")
 public class DeliveryStatusHistoryController {
 
     private final DeliveryStatusHistoryService deliveryStatusHistoryService;
@@ -36,10 +36,12 @@ public class DeliveryStatusHistoryController {
      */
     @PostMapping
     public ResponseEntity<CommonResponseBody<DeliveryStatusHistoryResponseDto>> deliveryStatusHistoryAdd(
+        @PathVariable String trackingNo,
         DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto) {
 
         DeliveryStatusHistoryResponseDto deliveryStatusHistoryResponseDto =
-            deliveryStatusHistoryService.findDeliveryStatusHistory(deliveryStatusHistoryRequestDto);
+            deliveryStatusHistoryService.findDeliveryStatusHistory(trackingNo,
+                deliveryStatusHistoryRequestDto);
 
         CommonResponseBody<DeliveryStatusHistoryResponseDto> commonResponseBody =
             new CommonResponseBody<>(

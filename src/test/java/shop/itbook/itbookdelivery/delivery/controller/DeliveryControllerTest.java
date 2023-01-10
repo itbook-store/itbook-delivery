@@ -52,21 +52,20 @@ class DeliveryControllerTest {
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverAddress", "수령주소");
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverDetailAddress", "수령상세주소");
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverPhoneNumber", "수령핸드폰번호");
-        ReflectionTestUtils.setField(deliveryRequestDto, "trackingNo", "운송장번호");
 
-        final Long TEST_DELIVERY_INDEX = 1L;
+        final String TEST_TRACKING_NO = "123";
 
         given(deliveryService.addDelivery(any(DeliveryRequestDto.class))).willReturn(
-            TEST_DELIVERY_INDEX);
+            TEST_TRACKING_NO);
 
         //when
-        mockMvc.perform(post("/api/delivery")
+        mockMvc.perform(post("/api/deliveries")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(deliveryRequestDto)))
             .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.result.deliveryNo", equalTo(1)));
+            .andExpect(jsonPath("$.result.trackingNo", equalTo(TEST_TRACKING_NO)));
     }
 
     @Test
@@ -76,12 +75,11 @@ class DeliveryControllerTest {
         //given
         DeliveryRequestDto deliveryRequestDto = new DeliveryRequestDto();
         ReflectionTestUtils.setField(deliveryRequestDto, "orderNo", 1L);
-        ReflectionTestUtils.setField(deliveryRequestDto, "receiverName", "수령인이름");
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverAddress", "수령주소");
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverDetailAddress", "수령상세주소");
         ReflectionTestUtils.setField(deliveryRequestDto, "receiverPhoneNumber", "수령핸드폰번호");
 
-        mockMvc.perform(post("/api/delivery")
+        mockMvc.perform(post("/api/deliveries")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(deliveryRequestDto)))

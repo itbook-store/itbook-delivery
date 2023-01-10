@@ -49,7 +49,6 @@ public class DeliveryStatusHistoryTransfer {
         DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto) {
 
         return DeliveryStatusHistory.builder()
-            .statusChangedCreatedAt(deliveryStatusHistoryRequestDto.getStatusChangedCreatedAt())
             .location(deliveryStatusHistoryRequestDto.getLocation())
             .build();
     }

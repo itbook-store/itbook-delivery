@@ -2,7 +2,6 @@ package shop.itbook.itbookdelivery.delivery.service;
 
 import shop.itbook.itbookdelivery.delivery.dto.request.DeliveryRequestDto;
 import shop.itbook.itbookdelivery.delivery.dto.response.DeliveryResponseDto;
-import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 
 /**
  * 배송 엔티티와 관련된 로직을 담당하는 클래스입니다.
@@ -13,39 +12,39 @@ import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 public interface DeliveryService {
 
     /**
-     * 요청을 받아 Delivery 엔티티를 생성하고 데이터베이스에 저장하는 함수입니다.
+     * 주문과 주문 수령인의 정보를 요청받아 배송 정보를 등록합니다.
      *
-     * @param deliveryRequestDto the delivery request dto
-     * @return the delivery
+     * @param deliveryRequestDto 배송 정보를 등록할 주문과 주문 수령인의 정보를 포함한 Dto 입니다.
+     * @return 저장에 성공 했을 경우 등록한 배송 정보 값의 운송장 번호가 반환됩니다.
      * @author 정재원 *
      */
-    Long addDelivery(DeliveryRequestDto deliveryRequestDto);
+    String addDelivery(DeliveryRequestDto deliveryRequestDto);
 
     /**
-     * Pk 값으로 Delivery 엔티티를 가져오는 함수입니다.
+     * 운송장번호를 통해 배송 정보를 조회합니다.
      *
-     * @param deliveryNo the delivery no, Pk.
-     * @return the delivery
+     * @param trackingNo 조회를 위해 요청으로 들어온 주문의 운송장 번호.
+     * @return 조회성공한 배송 정보를 Dto 에 담아 반환합니다.
      * @author 정재원 *
      */
-    DeliveryResponseDto findDeliveryEntity(Long deliveryNo);
-
-
-    /**
-     * 요청으로 받은 deliveryRequestDto 값으로 Delivery 엔티티를 생성하여 배송 정보를 변경합니다.
-     *
-     * @param deliveryNo         the delivery no
-     * @param deliveryRequestDto the delivery request dto
-     * @author 정재원 *
-     */
-    void modifyDelivery(Long deliveryNo, DeliveryRequestDto deliveryRequestDto);
+    DeliveryResponseDto findDeliveryByTrackingNo(String trackingNo);
 
 
     /**
-     * 요청으로 Pk 인 배송 번호를 받아 배송 정보를 삭제 합니다.
+     * 요청으로 받은 Dto 값으로 운송장번호를 통해 배송 정보를 수정합니다.
      *
-     * @param deliveryNo the delivery no
+     * @param trackingNo         수정을 위해 요청으로 들어온 주문의 운송장 번호.
+     * @param deliveryRequestDto 이 변수에 포함되어 있는 값으로 배송 정보를 수정합니다.
      * @author 정재원 *
      */
-    void deleteDelivery(Long deliveryNo);
+    void modifyDeliveryByTrackingNo(String trackingNo, DeliveryRequestDto deliveryRequestDto);
+
+
+    /**
+     * 운송장번호를 통해 배송 정보를 삭제합니다.
+     *
+     * @param trackingNo 삭제를 위해 요청으로 들어온 주문의 운송장 번호.
+     * @author 정재원 *
+     */
+    void deleteDeliveryByTrackingNo(String trackingNo);
 }

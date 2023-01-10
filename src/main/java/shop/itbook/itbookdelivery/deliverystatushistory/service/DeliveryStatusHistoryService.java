@@ -19,7 +19,7 @@ public interface DeliveryStatusHistoryService {
      * @author 정재원 *
      */
     DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(
-        DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto);
+        String trackingNo, DeliveryStatusHistoryRequestDto deliveryStatusHistoryRequestDto);
 
 
     /**
