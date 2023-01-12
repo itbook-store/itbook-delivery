@@ -53,5 +53,6 @@ public class DeliveryStatusHistory {
 
     public DeliveryStatusHistory(String location) {
         this.location = location;
+        this.statusChangedCreatedAt = LocalDateTime.now();
     }
 }
