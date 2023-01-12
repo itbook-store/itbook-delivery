@@ -37,7 +37,7 @@ public class DeliveryStatusHistoryController {
         @PathVariable String trackingNo) {
 
         DeliveryStatusHistoryResponseDto deliveryStatusHistoryResponseDto =
-            deliveryStatusHistoryService.findDeliveryStatusHistory(trackingNo);
+            deliveryStatusHistoryService.findAndUpdateDeliveryStatusHistory(trackingNo);
 
         CommonResponseBody<DeliveryStatusHistoryResponseDto> commonResponseBody =
             new CommonResponseBody<>(

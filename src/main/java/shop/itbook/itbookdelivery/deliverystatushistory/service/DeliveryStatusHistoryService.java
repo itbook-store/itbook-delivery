@@ -26,5 +26,5 @@ public interface DeliveryStatusHistoryService {
      * @return 해당 운송장 번호의 최신 배송 상태 이력
      * @author 정재원 *
      */
-    DeliveryStatusHistoryResponseDto findDeliveryStatusHistory(String trackingNo);
+    DeliveryStatusHistoryResponseDto findAndUpdateDeliveryStatusHistory(String trackingNo);
 }

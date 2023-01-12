@@ -65,7 +65,7 @@ public class DeliveryController {
      * @return 요청 성공 했다는 헤더와 요청한 배송 엔티티 정보.
      * @author 정재원 *
      */
-    @GetMapping
+    @GetMapping("/{trackingNo}")
     public ResponseEntity<CommonResponseBody<DeliveryResponseDto>> deliveryFind(
         @PathVariable String trackingNo) {
 
@@ -85,7 +85,7 @@ public class DeliveryController {
      * @return 수정 성공 시 200 상태 값을 반환.
      * @author 정재원 *
      */
-    @PutMapping
+    @PutMapping("/{trackingNo}")
     public ResponseEntity<CommonResponseBody<Void>> deliveryModify(
         @PathVariable String trackingNo,
         @Valid @RequestBody DeliveryRequestDto deliveryRequestDto) {
@@ -107,7 +107,7 @@ public class DeliveryController {
      * @return 삭제 성공 시 200 상태 값을 반환.
      * @author 정재원 *
      */
-    @DeleteMapping
+    @DeleteMapping("/{trackingNo}")
     public ResponseEntity<CommonResponseBody<Void>> deliveryRemove(
         @PathVariable String trackingNo) {
 
