@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shop.itbook.itbookdelivery.common.response.CommonResponseBody;
 import shop.itbook.itbookdelivery.delivery.dto.request.DeliveryRequestDto;
-import shop.itbook.itbookdelivery.delivery.dto.response.TrackingNoResponseDto;
 import shop.itbook.itbookdelivery.delivery.dto.response.DeliveryResponseDto;
 import shop.itbook.itbookdelivery.delivery.resultmessageenum.ResultMessageEnum;
 import shop.itbook.itbookdelivery.delivery.service.DeliveryService;
-import shop.itbook.itbookdelivery.deliverystatushistory.service.DeliveryStatusHistoryService;
 
 /**
  * 배송 등록, 조회, 수정, 삭제를 요청 받는 컨트롤러 입니다.
@@ -32,28 +30,27 @@ import shop.itbook.itbookdelivery.deliverystatushistory.service.DeliveryStatusHi
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
-    private final DeliveryStatusHistoryService deliveryStatusHistoryService;
 
     private final static Boolean SUCCEEDED = true;
 
     /**
      * 요청받은 배송 정보로 배송 엔티티를 만들고 DB 에 등록한 뒤 성공하면 Pk 인 배송 번호를 반환한다.
      *
-     * @param deliveryRequestDto the delivery request dto
-     * @return the response entity
+     * @param deliveryRequestDto 배송 요청 정보를 담은 Dto.
+     * @return 등록 성공 후 해당 정보를 담은 Dto.
      * @author 정재원 *
      */
     @PostMapping
-    public ResponseEntity<CommonResponseBody<TrackingNoResponseDto>> deliveryAdd(
+    public ResponseEntity<CommonResponseBody<DeliveryResponseDto>> deliveryAdd(
         @Valid @RequestBody DeliveryRequestDto deliveryRequestDto) {
 
-        TrackingNoResponseDto trackingNoResponseDto =
-            new TrackingNoResponseDto(deliveryService.addDelivery(deliveryRequestDto));
+        DeliveryResponseDto deliveryResponseDto =
+            deliveryService.addDelivery(deliveryRequestDto);
 
-        CommonResponseBody<TrackingNoResponseDto> commonResponseBody = new CommonResponseBody<>(
+        CommonResponseBody<DeliveryResponseDto> commonResponseBody = new CommonResponseBody<>(
             new CommonResponseBody.CommonHeader(SUCCEEDED, HttpStatus.CREATED.value(),
                 ResultMessageEnum.DELIVERY_ADD_SUCCESS_MESSAGE.getSuccessMessage()),
-            trackingNoResponseDto);
+            deliveryResponseDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(commonResponseBody);
     }

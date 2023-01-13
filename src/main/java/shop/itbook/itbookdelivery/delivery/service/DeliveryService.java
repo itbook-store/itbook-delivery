@@ -13,12 +13,13 @@ public interface DeliveryService {
 
     /**
      * 주문과 주문 수령인의 정보를 요청받아 배송 정보를 등록합니다.
+     * 다른 서버의 요청에 응답합니다.
      *
      * @param deliveryRequestDto 배송 정보를 등록할 주문과 주문 수령인의 정보를 포함한 Dto 입니다.
      * @return 저장에 성공 했을 경우 등록한 배송 정보 값의 운송장 번호가 반환됩니다.
      * @author 정재원 *
      */
-    String addDelivery(DeliveryRequestDto deliveryRequestDto);
+    DeliveryResponseDto addDelivery(DeliveryRequestDto deliveryRequestDto);
 
     /**
      * 운송장번호를 통해 배송 정보를 조회합니다.

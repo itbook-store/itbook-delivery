@@ -1,5 +1,6 @@
 package shop.itbook.itbookdelivery.delivery.service.impl;
 
+import java.util.UUID;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,24 +26,22 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryRepository deliveryRepository;
     private final DeliveryStatusHistoryService deliveryStatusHistoryService;
 
-    private static final Long TRACKING_SEQUENCE_NUMBER = 1L;
-
     /**
      * {@inheritDoc}
      */
     @Override
     @Transactional
-    public String addDelivery(DeliveryRequestDto deliveryRequestDto) {
+    public DeliveryResponseDto addDelivery(DeliveryRequestDto deliveryRequestDto) {
         Delivery delivery = DeliveryTransfer.dtoToEntity(deliveryRequestDto);
 
-        // TODO 멀티쓰레드 고려. 유니크 아이디.
-        delivery.setTrackingNo(
-            String.valueOf(deliveryRepository.count() + TRACKING_SEQUENCE_NUMBER));
+        long randomTrackingNo = UUID.randomUUID().hashCode();
+
+        delivery.setTrackingNo(String.valueOf(randomTrackingNo));
 
         deliveryRepository.save(delivery);
         deliveryStatusHistoryService.addDeliveryStatusHistory(delivery);
 
-        return delivery.getTrackingNo();
+        return DeliveryTransfer.entityToDto(delivery);
     }
 
     /**
