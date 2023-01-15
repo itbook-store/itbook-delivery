@@ -11,7 +11,7 @@ public enum ResultMessageEnum {
     DELIVERY_STATUS_ADD_SUCCESS_MESSAGE("배송 상태 등록 성공했습니다."),
     DELIVERY_STATUS_FIND_SUCCESS_MESSAGE("배송 상태 조회 성공했습니다."),
     DELIVERY_STATUS_MODIFY_SUCCESS_MESSAGE("배송 상태 수정 성공했습니다."),
-    DELIVERY_STATUS_remove_SUCCESS_MESSAGE("배송 상태 삭제 성공했습니다.");
+    DELIVERY_STATUS_REMOVE_SUCCESS_MESSAGE("배송 상태 삭제 성공했습니다.");
 
     private final String successMessage;
 

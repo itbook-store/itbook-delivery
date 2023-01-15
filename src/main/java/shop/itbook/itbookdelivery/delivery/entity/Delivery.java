@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,10 +51,7 @@ public class Delivery {
 
     @Column(name = "tracking_no", nullable = false, columnDefinition = "varchar(255)")
     private String trackingNo;
-
-    @OneToMany(mappedBy = "delivery", cascade = CascadeType.REMOVE)
-    List<DeliveryStatusHistory> deliveryStatusHistory;
-
+    
     /**
      * 배송 엔티티에 대한 생성자 입니다.
      *

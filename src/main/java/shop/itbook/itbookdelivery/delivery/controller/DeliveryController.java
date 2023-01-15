@@ -1,5 +1,6 @@
 package shop.itbook.itbookdelivery.delivery.controller;
 
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,16 +32,16 @@ public class DeliveryController {
 
     private final DeliveryService deliveryService;
 
-    private final static Boolean SUCCEEDED = true;
+    private static final Boolean SUCCEEDED = true;
 
     /**
      * 요청받은 배송 정보로 배송 엔티티를 만들고 DB 에 등록한 뒤 성공하면 Pk 인 배송 번호를 반환한다.
      *
      * @param deliveryRequestDto 배송 요청 정보를 담은 Dto.
      * @return 등록 성공 후 해당 정보를 담은 Dto.
-     * @author 정재원 *
+     * @author 정재원
      */
-    @PostMapping
+    @PostMapping("/one")
     public ResponseEntity<CommonResponseBody<DeliveryResponseDto>> deliveryAdd(
         @Valid @RequestBody DeliveryRequestDto deliveryRequestDto) {
 
@@ -56,11 +57,30 @@ public class DeliveryController {
     }
 
     /**
+     * 요청받은 배송 정보 리스트로 배송 엔티티를 만들고 DB 에 등록한 뒤 성공하면 Pk 인 배송 번호를 반환한다.
+     *
+     * @param deliveryRequestDtoList 배송 정보 요청 리스트
+     * @return 등록 성공 후 해당 정보를 담은 Dto.
+     * @author 정재원
+     */
+    @PostMapping
+    public ResponseEntity<CommonResponseBody<List<DeliveryResponseDto>>> deliveryListAdd(
+        @Valid @RequestBody List<DeliveryRequestDto> deliveryRequestDtoList) {
+
+        CommonResponseBody<List<DeliveryResponseDto>> commonResponseBody = new CommonResponseBody<>(
+            new CommonResponseBody.CommonHeader(SUCCEEDED, HttpStatus.CREATED.value(),
+                ResultMessageEnum.DELIVERY_ADD_SUCCESS_MESSAGE.getSuccessMessage()),
+            deliveryService.addDeliveryList(deliveryRequestDtoList));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponseBody);
+    }
+
+    /**
      * 배송 정보 조회 요청 시 운송장 번호를 받아 처리합니다.
      *
      * @param trackingNo 배송 정보 조회를 위해 요청으로 들어온 해당 주문의 운송장 번호
      * @return 요청 성공 했다는 헤더와 요청한 배송 엔티티 정보.
-     * @author 정재원 *
+     * @author 정재원
      */
     @GetMapping("/{trackingNo}")
     public ResponseEntity<CommonResponseBody<DeliveryResponseDto>> deliveryFind(
@@ -80,7 +100,7 @@ public class DeliveryController {
      * @param trackingNo         배송 정보 수정을 위해 요청으로 들어온 해당 주문의 운송장 번호
      * @param deliveryRequestDto 수정할 값을 가지고 있는 요청 Dto
      * @return 수정 성공 시 200 상태 값을 반환.
-     * @author 정재원 *
+     * @author 정재원
      */
     @PutMapping("/{trackingNo}")
     public ResponseEntity<CommonResponseBody<Void>> deliveryModify(
@@ -102,7 +122,7 @@ public class DeliveryController {
      *
      * @param trackingNo 배송 정보 삭제를 위해 요청으로 들어온 해당 주문의 운송장 번호
      * @return 삭제 성공 시 200 상태 값을 반환.
-     * @author 정재원 *
+     * @author 정재원
      */
     @DeleteMapping("/{trackingNo}")
     public ResponseEntity<CommonResponseBody<Void>> deliveryRemove(

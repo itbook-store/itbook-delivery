@@ -1,7 +1,9 @@
 package shop.itbook.itbookdelivery.deliverystatushistory.service.impl;
 
+import java.nio.Buffer;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import shop.itbook.itbookdelivery.delivery.entity.Delivery;
 import shop.itbook.itbookdelivery.delivery.exception.DeliveryNotFoundException;
@@ -22,6 +24,7 @@ import shop.itbook.itbookdelivery.deliverystatushistory.transfer.DeliveryStatusH
  * @author 정재원
  * @since 1.0
  */
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistoryService {
@@ -29,6 +32,7 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
     private final DeliveryRepository deliveryRepository;
     private final DeliveryStatusRepository deliveryStatusRepository;
     private final DeliveryStatusHistoryRepository deliveryStatusHistoryRepository;
+    private static final StringBuffer stringBuffer = new StringBuffer();
 
     /**
      * {@inheritDoc}
@@ -43,7 +47,9 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
                 .orElseThrow(DeliveryStatusNotFoundException::new);
 
         DeliveryStatusHistory deliveryStatusHistory =
-            new DeliveryStatusHistory(delivery.getReceiverAddress());
+            new DeliveryStatusHistory(stringBuffer.append(delivery.getReceiverAddress())
+                .append(" ")
+                .append(delivery.getReceiverDetailAddress()).toString());
 
         deliveryStatusHistory.setDelivery(delivery);
         deliveryStatusHistory.setDeliveryStatus(deliveryStatus);
@@ -67,7 +73,10 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
                 .orElseThrow(DeliveryStatusNotFoundException::new);
 
         DeliveryStatusHistory deliveryStatusHistory = new DeliveryStatusHistory(
-            delivery.getReceiverAddress() + delivery.getReceiverDetailAddress());
+            stringBuffer.append(delivery.getReceiverAddress())
+                .append(" ")
+                .append(delivery.getReceiverDetailAddress()).toString());
+
 
         deliveryStatusHistory.setDelivery(delivery);
         deliveryStatusHistory.setDeliveryStatus(deliveryStatus);
