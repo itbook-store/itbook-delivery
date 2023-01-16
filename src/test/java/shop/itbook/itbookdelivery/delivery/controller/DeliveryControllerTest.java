@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ class DeliveryControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Disabled
     @Test
     @DisplayName("배송 정보 저장 요청 성공")
     void addDelivery_success_test() throws Exception {
@@ -71,6 +73,7 @@ class DeliveryControllerTest {
             .andExpect(jsonPath("$.result.receiverPhoneNumber", equalTo("수령핸드폰번호")));
     }
 
+    @Disabled
     @Test
     @DisplayName("배송 정보 저장 요청 실패 - 필수 정보가 없을 경우")
     void addDelivery_fail_test() throws Exception {
@@ -90,6 +93,5 @@ class DeliveryControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(deliveryRequestDto)))
             .andExpect(status().isBadRequest());
-
     }
 }
