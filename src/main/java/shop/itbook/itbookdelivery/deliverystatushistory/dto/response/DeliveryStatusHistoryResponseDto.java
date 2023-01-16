@@ -3,8 +3,6 @@ package shop.itbook.itbookdelivery.deliverystatushistory.dto.response;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
-import shop.itbook.itbookdelivery.delivery.entity.Delivery;
-import shop.itbook.itbookdelivery.deliverystatus.entity.DeliveryStatus;
 
 /**
  * 배송 상태 이력 엔티티의 모든 정보를 담고 있는 반환 Dto 입니다.

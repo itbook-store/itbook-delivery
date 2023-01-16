@@ -1,8 +1,5 @@
 package shop.itbook.itbookdelivery.deliverystatushistory.transfer;
 
-import java.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import shop.itbook.itbookdelivery.deliverystatus.entity.DeliveryStatus;
 import shop.itbook.itbookdelivery.deliverystatushistory.dto.request.DeliveryStatusHistoryRequestDto;
 import shop.itbook.itbookdelivery.deliverystatushistory.dto.response.DeliveryStatusHistoryResponseDto;
 import shop.itbook.itbookdelivery.deliverystatushistory.entity.DeliveryStatusHistory;

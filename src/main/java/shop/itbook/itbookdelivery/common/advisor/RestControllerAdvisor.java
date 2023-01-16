@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import shop.itbook.itbookdelivery.common.exception.MemberForbiddenException;
 import shop.itbook.itbookdelivery.common.response.CommonResponseBody;
 import shop.itbook.itbookdelivery.delivery.exception.DeliveryNotFoundException;
+import shop.itbook.itbookdelivery.deliverystatus.exception.DeliveryStatusNotFoundException;
+import shop.itbook.itbookdelivery.deliverystatushistory.exception.DeliveryStatusHistoryNotFoundException;
 
 /**
  * rest controller 에서 예외발생시 종합적인 처리를 해주기 위한 클래스입니다.
@@ -29,7 +31,8 @@ public class RestControllerAdvisor {
      * @author 최겸준
      */
     @ExceptionHandler(value = {DeliveryNotFoundException.class,
-        MethodArgumentNotValidException.class})
+        MethodArgumentNotValidException.class, DeliveryStatusNotFoundException.class,
+        DeliveryStatusHistoryNotFoundException.class})
     public ResponseEntity<CommonResponseBody<RuntimeException>> badRequestException400(
         RuntimeException e) {
 
