@@ -26,35 +26,11 @@ import shop.itbook.itbookdelivery.delivery.service.DeliveryService;
  * @since 1.0
  */
 @RestController
-@RequestMapping("/api/deliveries")
+@RequestMapping("/delivery")
 @RequiredArgsConstructor
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
-
-    private static final Boolean SUCCEEDED = true;
-
-    /**
-     * 요청받은 배송 정보로 배송 엔티티를 만들고 DB 에 등록한 뒤 성공하면 Pk 인 배송 번호를 반환한다.
-     *
-     * @param deliveryRequestDto 배송 요청 정보를 담은 Dto.
-     * @return 등록 성공 후 해당 정보를 담은 Dto.
-     * @author 정재원
-     */
-    @PostMapping("/one")
-    public ResponseEntity<CommonResponseBody<DeliveryResponseDto>> deliveryAdd(
-        @Valid @RequestBody DeliveryRequestDto deliveryRequestDto) {
-
-        DeliveryResponseDto deliveryResponseDto =
-            deliveryService.addDelivery(deliveryRequestDto);
-
-        CommonResponseBody<DeliveryResponseDto> commonResponseBody = new CommonResponseBody<>(
-            new CommonResponseBody.CommonHeader(SUCCEEDED, HttpStatus.CREATED.value(),
-                ResultMessageEnum.DELIVERY_ADD_SUCCESS_MESSAGE.getSuccessMessage()),
-            deliveryResponseDto);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponseBody);
-    }
 
     /**
      * 요청받은 배송 정보 리스트로 배송 엔티티를 만들고 DB 에 등록한 뒤 성공하면 Pk 인 배송 번호를 반환한다.
@@ -68,7 +44,7 @@ public class DeliveryController {
         @Valid @RequestBody List<DeliveryRequestDto> deliveryRequestDtoList) {
 
         CommonResponseBody<List<DeliveryResponseDto>> commonResponseBody = new CommonResponseBody<>(
-            new CommonResponseBody.CommonHeader(SUCCEEDED, HttpStatus.CREATED.value(),
+            new CommonResponseBody.CommonHeader(
                 ResultMessageEnum.DELIVERY_ADD_SUCCESS_MESSAGE.getSuccessMessage()),
             deliveryService.addDeliveryList(deliveryRequestDtoList));
 
@@ -87,7 +63,7 @@ public class DeliveryController {
         @PathVariable String trackingNo) {
 
         CommonResponseBody<DeliveryResponseDto> commonResponseBody = new CommonResponseBody<>(
-            new CommonResponseBody.CommonHeader(SUCCEEDED, HttpStatus.OK.value(),
+            new CommonResponseBody.CommonHeader(
                 ResultMessageEnum.DELIVERY_FIND_SUCCESS_MESSAGE.getSuccessMessage()),
             deliveryService.findDeliveryByTrackingNo(trackingNo));
 
@@ -110,7 +86,7 @@ public class DeliveryController {
         deliveryService.modifyDeliveryByTrackingNo(trackingNo, deliveryRequestDto);
 
         CommonResponseBody<Void> commonResponseBody = new CommonResponseBody<>(
-            new CommonResponseBody.CommonHeader(true, HttpStatus.OK.value(),
+            new CommonResponseBody.CommonHeader(
                 ResultMessageEnum.DELIVERY_MODIFY_SUCCESS_MESSAGE.getSuccessMessage()),
             null);
 
@@ -131,7 +107,7 @@ public class DeliveryController {
         deliveryService.removeDeliveryByTrackingNo(trackingNo);
 
         CommonResponseBody<Void> commonResponseBody = new CommonResponseBody<>(
-            new CommonResponseBody.CommonHeader(true, HttpStatus.NO_CONTENT.value(),
+            new CommonResponseBody.CommonHeader(
                 ResultMessageEnum.DELIVERY_REMOVE_SUCCESS_MESSAGE.getSuccessMessage()),
             null);
 
