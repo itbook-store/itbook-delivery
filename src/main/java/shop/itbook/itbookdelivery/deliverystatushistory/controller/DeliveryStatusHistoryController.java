@@ -41,7 +41,7 @@ public class DeliveryStatusHistoryController {
 
         CommonResponseBody<DeliveryStatusHistoryResponseDto> commonResponseBody =
             new CommonResponseBody<>(
-                new CommonResponseBody.CommonHeader(true, HttpStatus.CREATED.value(),
+                new CommonResponseBody.CommonHeader(
                     ResultMessageEnum.DELIVERY_STATUS_HISTORY_ADD_SUCCESS_MESSAGE.getSuccessMessage()),
                 deliveryStatusHistoryResponseDto
             );

@@ -26,8 +26,6 @@ public class CommonResponseBody<T> {
     @AllArgsConstructor
     @Getter
     public static class CommonHeader {
-        private boolean isSuccessful;
-        private Integer resultCode;
         private String resultMessage;
     }
 }

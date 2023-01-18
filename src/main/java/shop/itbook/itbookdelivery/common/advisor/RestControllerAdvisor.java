@@ -1,10 +1,7 @@
 package shop.itbook.itbookdelivery.common.advisor;
 
-import javax.validation.ValidationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -37,8 +34,7 @@ public class RestControllerAdvisor {
         RuntimeException e) {
 
         CommonResponseBody<RuntimeException> exceptionCommonResponseBody = new CommonResponseBody<>(
-            new CommonResponseBody.CommonHeader(false, HttpStatus.BAD_REQUEST.value(),
-                e.getMessage()), null);
+            new CommonResponseBody.CommonHeader(e.getMessage()), null);
 
         return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON)
             .body(exceptionCommonResponseBody);
@@ -56,8 +52,7 @@ public class RestControllerAdvisor {
         RuntimeException e) {
 
         CommonResponseBody<RuntimeException> exceptionCommonResponseBody = new CommonResponseBody<>(
-            new CommonResponseBody.CommonHeader(false, HttpStatus.FORBIDDEN.value(),
-                e.getMessage()), null);
+            new CommonResponseBody.CommonHeader(e.getMessage()), null);
 
         return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON)
             .body(exceptionCommonResponseBody);
@@ -74,8 +69,7 @@ public class RestControllerAdvisor {
     public ResponseEntity<CommonResponseBody<Exception>> internalErrorException500(Exception e) {
 
         CommonResponseBody<Exception> exceptionCommonResponseBody = new CommonResponseBody<>(
-            new CommonResponseBody.CommonHeader(false, HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                e.getMessage()), null);
+            new CommonResponseBody.CommonHeader(e.getMessage()), null);
 
         return ResponseEntity.internalServerError().contentType(MediaType.APPLICATION_JSON)
             .body(exceptionCommonResponseBody);
