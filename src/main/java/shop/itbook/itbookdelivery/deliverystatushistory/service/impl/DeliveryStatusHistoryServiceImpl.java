@@ -1,6 +1,5 @@
 package shop.itbook.itbookdelivery.deliverystatushistory.service.impl;
 
-import java.nio.Buffer;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +31,6 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
     private final DeliveryRepository deliveryRepository;
     private final DeliveryStatusRepository deliveryStatusRepository;
     private final DeliveryStatusHistoryRepository deliveryStatusHistoryRepository;
-    private static final StringBuffer stringBuffer = new StringBuffer();
 
     /**
      * {@inheritDoc}
@@ -41,13 +39,15 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
     @Transactional
     public void addDeliveryStatusHistory(Delivery delivery) {
 
+        StringBuilder stringBuilder = new StringBuilder();
+
         DeliveryStatus deliveryStatus =
             deliveryStatusRepository.findDeliveryStatusByDeliveryStatusEnum(
                     DeliveryStatusEnum.DELIVERY_IN_PROGRESS)
                 .orElseThrow(DeliveryStatusNotFoundException::new);
 
         DeliveryStatusHistory deliveryStatusHistory =
-            new DeliveryStatusHistory(stringBuffer.append(delivery.getReceiverAddress())
+            new DeliveryStatusHistory(stringBuilder.append(delivery.getReceiverAddress())
                 .append(" ")
                 .append(delivery.getReceiverDetailAddress()).toString());
 
@@ -64,6 +64,8 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
     @Transactional
     public DeliveryStatusHistoryResponseDto findAndUpdateDeliveryStatusHistory(String trackingNo) {
 
+        StringBuilder stringBuilder = new StringBuilder();
+
         Delivery delivery = deliveryRepository.findDeliveryByTrackingNo(trackingNo)
             .orElseThrow(() -> new DeliveryNotFoundException(trackingNo));
 
@@ -73,10 +75,9 @@ public class DeliveryStatusHistoryServiceImpl implements DeliveryStatusHistorySe
                 .orElseThrow(DeliveryStatusNotFoundException::new);
 
         DeliveryStatusHistory deliveryStatusHistory = new DeliveryStatusHistory(
-            stringBuffer.append(delivery.getReceiverAddress())
+            stringBuilder.append(delivery.getReceiverAddress())
                 .append(" ")
                 .append(delivery.getReceiverDetailAddress()).toString());
-
 
         deliveryStatusHistory.setDelivery(delivery);
         deliveryStatusHistory.setDeliveryStatus(deliveryStatus);
